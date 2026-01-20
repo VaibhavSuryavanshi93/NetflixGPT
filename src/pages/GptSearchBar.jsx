@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import client from "../utils/openai";
 import axios from "axios";
 import { API_OPTIONS } from "../utils/constants";
-import { addGptMovieResults } from "../utils/GptSlice";
+import { addGptMovieResults } from "../utils/gptSlice";
 import { setGptLoading } from "../utils/uiSlice";
 
 const GptSearchBar = () => {
