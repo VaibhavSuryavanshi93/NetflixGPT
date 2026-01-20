@@ -35,7 +35,7 @@ const MainContainer = () => {
     return <MainContainerSkeleton />;
   }
 
-  const mainMovie = movies[2];
+  const mainMovie = movies[1];
 
   return (
     <div className=" bg-black md:pt-0">

@@ -31,6 +31,13 @@ const Login = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!loadingUI && email.current && password.current) {
+      email.current.value = "test@demo.com";
+      password.current.value = "Test@12!";
+    }
+  }, [loadingUI]);
+
   /* ---------- Remember Me ---------- */
   useEffect(() => {
     const savedEmail = localStorage.getItem("remember_email");
