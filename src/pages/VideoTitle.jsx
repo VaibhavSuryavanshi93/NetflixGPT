@@ -28,13 +28,13 @@ const VideoTitle = ({ title, overview, rating, releaseDate }) => {
 
       {/* Buttons */}
       <div className="my-4 flex items-center gap-3">
-        <button className="bg-white text-black py-1 md:py-4 px-3 md:px-12 text-xl rounded-lg hover:bg-white/80">
+        <button className="bg-white cursor-pointer text-black py-1 md:py-4 px-3 text-sm md:px-12 md:text-xl rounded-lg hover:bg-white/80">
           ▶️ Play
         </button>
 
         <button
           onClick={() => setShowInfo((prev) => !prev)}
-          className="hidden md:inline-block bg-gray-500/50 text-white p-4 px-12 text-xl rounded-lg"
+          className=" cursor-pointer hover:bg-gray-600 md:inline-block bg-gray-500/50 text-white py-1 md:py-4 px-3 md:px-12 text-sm md:text-xl rounded-lg"
         >
           {showInfo ? "Hide Info" : "More Info"}
         </button>

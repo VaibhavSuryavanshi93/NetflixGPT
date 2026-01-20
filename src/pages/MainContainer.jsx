@@ -35,10 +35,10 @@ const MainContainer = () => {
     return <MainContainerSkeleton />;
   }
 
-  const mainMovie = movies[0];
+  const mainMovie = movies[2];
 
   return (
-    <div className="pt-[30%] bg-black md:pt-0">
+    <div className=" bg-black md:pt-0">
       <VideoTitle
 
         title={mainMovie.original_title}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import { checkValidData } from "../utils/Validate";
 import {
@@ -10,137 +10,184 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BG_URL, USER_AVATAR } from "../utils/constants";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [isSignInform, setIsSignInform] = useState(true);
+
+  const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loadingUI, setLoadingUI] = useState(true);
 
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
-  const toggleSignInForm = () => {
-    setIsSignInform(!isSignInform);
-  };
-  const handleButtonClick = () => {
+  /* ---------- Skeleton Loader ---------- */
+  useEffect(() => {
+    const timer = setTimeout(() => setLoadingUI(false), 900);
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* ---------- Remember Me ---------- */
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("remember_email");
+
+    if (savedEmail && email.current) {
+      email.current.value = savedEmail;
+      setRememberMe(true);
+    }
+  }, [loadingUI]);
+
+  const toggleSignInForm = () => setIsSignInForm(!isSignInForm);
+
+  const handleButtonClick = async () => {
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if (message) return;
 
-    if (!isSignInform) {
-      //sign up logic
-
-      createUserWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          updateProfile(user, {
-            displayName: name.current.value,
-            photoURL: USER_AVATAR,
-          })
-            .then(() => {
-              const { uid, email, displayName, photoURL } = auth.currentUser;
-              dispatch(
-                addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
-                })
-              );
-
-              // Profile updated!
-              // ...
-            })
-            .catch((error) => {
-              setErrorMessage(error.message);
-              // An error occurred
-              // ...
-            });
-
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
-          // ..
-        });
+    if (rememberMe) {
+      localStorage.setItem("remember_email", email.current.value);
+    } else {
+      localStorage.removeItem("remember_email");
     }
-    if (isSignInform) {
-      //sign in Logic
-      signInWithEmailAndPassword(
-        auth,
-        email.current.value,
-        password.current.value
-      )
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
+
+    try {
+      if (!isSignInForm) {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        );
+
+        await updateProfile(userCredential.user, {
+          displayName: name.current.value,
+          photoURL: USER_AVATAR,
         });
+
+        const {
+          uid,
+          email: userEmail,
+          displayName,
+          photoURL,
+        } = auth.currentUser;
+
+        dispatch(addUser({ uid, email: userEmail, displayName, photoURL }));
+      } else {
+        await signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        );
+      }
+    } catch (err) {
+      setErrorMessage(err.code + " - " + err.message);
     }
   };
-  return (
-    <div>
-      <Navbar />
-      <div className="absolute">
-        <img src={BG_URL} />
+
+  /* ---------- Skeleton UI ---------- */
+  if (loadingUI) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-[90%] md:w-3/12 bg-black/50 p-6 md:p-12 rounded-lg">
+          <Skeleton height={40} className="mt-4 shimmer opacity-65" />
+          <Skeleton height={45} className="mt-4 shimmer opacity-65" />
+          <Skeleton height={45} className="mt-4 shimmer" />
+          <Skeleton height={45} className="mt-6 shimmer" />
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen ">
+      <Navbar />
+
+      {/* Background */}
+      <div className="fixed inset-0 -z-10">
+        <img
+          src={BG_URL}
+          className="w-full h-full object-cover"
+          alt="background"
+        />
+      </div>
+
+      {/* Form */}
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="w-full md:w-3/12 absolute p-12 bg-black/80 my-36 mx-auto right-0 left-0 text-white rounded-lg"
+        className="
+          w-[90%]
+          md:w-3/12
+          absolute
+          p-6 md:p-12
+          bg-black/80
+          
+          top-24 md:my-3
+          mx-auto
+          right-0 left-0
+          text-white
+          rounded-lg
+          transition-all duration-500
+        "
       >
-        <h1 className="font-bold text-3xl py-4">
-          {isSignInform ? "Sign In" : "Sign Up"}
+        <h1 className="font-bold text-2xl md:text-3xl py-4">
+          {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
-        {!isSignInform && ( // if condition is true then it will return expression otherwise it will return Nothing if False
+
+        {!isSignInForm && (
           <input
             ref={name}
             type="text"
             placeholder="Full Name"
-            className="p-4 my-4 w-full bg-gray-700"
-            required
-            minLength={4}
-            maxLength={25}
+            className="p-3 md:p-4 my-3 w-full bg-gray-700 rounded"
           />
         )}
+
         <input
           ref={email}
-          type="text"
+          type="email"
           placeholder="Email Address"
-          className="p-4 my-4 w-full bg-gray-700"
+          className="p-3 md:p-4 my-3 w-full bg-gray-700 rounded"
         />
 
         <input
           ref={password}
           type="password"
           placeholder="Password"
-          className="p-4 my-4 w-full bg-gray-700"
+          className="p-3 md:p-4 my-3 w-full bg-gray-700 rounded"
         />
-        <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
+
+        {/* Remember Me */}
+        <div className="flex items-center gap-2 text-sm text-gray-300 my-2">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={() => setRememberMe(!rememberMe)}
+          />
+          <span>Remember me</span>
+        </div>
+
+        {errorMessage && (
+          <p className="text-red-500 font-bold text-sm py-2">{errorMessage}</p>
+        )}
 
         <button
           type="submit"
-          className="p-4 my-4 w-full bg-red-600 hover:bg-red-700"
           onClick={handleButtonClick}
+          className="p-3 md:p-4 my-4 w-full bg-red-600 hover:bg-red-700 rounded text-lg"
         >
-          {isSignInform ? "Sign In" : "Sign Up"}
+          {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
-        <p className="py-4 cursor-pointer " onClick={toggleSignInForm}>
-          {isSignInform
+
+        <p
+          className="py-4 cursor-pointer text-sm text-gray-300 hover:underline"
+          onClick={toggleSignInForm}
+        >
+          {isSignInForm
             ? "New to Netflix? Sign Up Now"
-            : "Already an User? Sign In Now"}
+            : "Already a user? Sign In Now"}
         </p>
       </form>
     </div>

@@ -127,7 +127,7 @@ const GptSearchBar = () => {
           ])
         );
       } catch (tmdbErr) {
-        toast.error("TMDB also failed. Try later.");
+        toast.error("TMDB also failed. Try later.",tmdbErr);
       }
     } finally {
       setLoader(false);

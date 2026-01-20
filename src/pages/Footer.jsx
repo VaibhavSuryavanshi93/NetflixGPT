@@ -1,65 +1,63 @@
-import React from "react";
-import "../App.css";
+// import React from "react";
+// import "../App.css";
+
+import { my_pic } from "../utils/constants";
+import { Link } from "react-router-dom";
+
 
 const Footer = () => {
   const date = new Date().getFullYear();
   return (
-    <div className="FooterName">
-      <hr />
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap"
-        rel="stylesheet"
-      />
-
-      <div>
-        <div class="footer">
-          <div class="row">
-            <a href="www.google.com">
-              <i class="fa fa-facebook"></i>
-            </a>
-            <a href="google.com">
-              <i class="fa fa-instagram"></i>
-            </a>
-            <a href="google.com">
-              <i class="fa fa-youtube"></i>
-            </a>
-            <a href="google.com">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </div>
-
-          <div class="row">
-            <ul>
-              <li>
-                <a href="www.google.com">Contact us</a>
-              </li>
-              <li>
-                <a href="www.google.com">Our Services</a>
-              </li>
-              <li>
-                <a href="www.google.com">Privacy Policy</a>
-              </li>
-              <li>
-                <a href="www.google.com">Terms & Conditions</a>
-              </li>
-              <li>
-                <a href="www.google.com">Career</a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="row">
-            Copyright © {date} Paras Infotech - All rights reserved{" "}
-            <span class="author"> Vaibhav Surayavanshi</span>
-          </div>
+    <footer className="bg-gradient-to-b from-black to-gray-900 rounded-lgd shadow ">
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div className="flex items-center flex-col md:flex-row justify-between">
+          <a
+            href="https://vaibhavsuryavanshi.vercel.app/"
+            className="flex items-center mb-6 md:mb-2"
+          >
+            <img
+              src={my_pic}
+              className="md:h-16 h-6 rounded-md  mr-3"
+              alt="Flowbite Logo"
+            />
+            <span className="author text-sm md:text-2xl text-gray-50  ">
+              Vaibhav Surayavanshi
+            </span>
+          </a>
+          <ul className="flex flex-wrap items-center mb-2 text-sm font-medium text-gray-500">
+            <li>
+              <Link
+                to="https://vaibhavsuryavanshi.vercel.app/"
+                target="_blank"
+                rel="noreferrer"
+                className="mr-4 hover:underline md:mr-6"
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <a href="#!" className="mr-4 hover:underline md:mr-6">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/vaibhav-suryavanshi-52784b253/"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                Contact to us{" "}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <hr className="my-6 sm:mx-auto border-[#282727] lg:my-8" />
+        <div className="text-gray-400  text-center">
+          Copyright © {date} - All rights reserved{" "}
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

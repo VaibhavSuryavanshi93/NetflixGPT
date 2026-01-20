@@ -60,12 +60,16 @@ const Navbar = () => {
     dispatch(changeLanguage(e.target.value));
   };
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
+    <div className="absolute w-screen px-4 py-2 bg-gradient-to-b from-black z-10 flex items-center justify-between md:px-8 md:py-2 md:items-start">
       <Link to="/browse">
-        <img className="w-44 mx-auto md:mx-0" src={LOGO} alt="logo" />
+        <img
+          className="w-28 mt-0 ml-0 md:w-44 md:-ml-4 md:mx-0"
+          src={LOGO}
+          alt="logo"
+        />
       </Link>
       {user && (
-        <div className="flex p-2 justify-between">
+        <div className="flex items-center p-0 md:p-2  justify-between">
           {showGptSearch && (
             <select
               className="p-2 m-2 bg-black/40 text-white border-t-indigo-600 rounded-lg  cursor-pointer hover:text-blue-400"
@@ -79,7 +83,7 @@ const Navbar = () => {
             </select>
           )}
           <button
-            className="py-2 px-4 mx-4 my-2  border-t-indigo-600 text-white rounded-lg  hover:bg-gray-200/10 cursor-pointer hover:text-yellow-400  "
+            className="flex items-center justify-center py-2 px-3 mx-1 my-1 md:mx-4 md:my-2 border-t-indigo-600 text-white rounded-lg hover:bg-gray-200/10 cursor-pointer hover:text-yellow-400"
             onClick={handleGptSearchClick}
           >
             {showGptSearch ? (
