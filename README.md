@@ -73,32 +73,32 @@ src/
 Create a `.env` file in the root:
 
 env
-REACT_APP_TMDB_KEY=your_tmdb_api_key
-REACT_APP_OPENAI_KEY=your_openai_api_key
-REACT_APP_FIREBASE_KEY=your_firebase_key
+- VITE_TMDB_API_KEY=your_tmdb_api_key
+- VITE_FIREBASE_API_KEY=your_firebase_key
+- VITE_OPENAI_KEY=your_openai_api_key
 ---
 
 ## 🧪 Installation & Setup
 
-git clone https://github.com/VaibhavSuryavanshi93/NetflixGPT.git
-cd NetflixGPT
-npm install
-npm start
+- git clone https://github.com/VaibhavSuryavanshi93/NetflixGPT.git
+- cd NetflixGPT
+- npm install
+- - npm start
 
 
 ## 📸 Screenshots
 
 ## 🧯 Error Handling
 
-OpenAI rate limit fallback to TMDB
+- OpenAI rate limit fallback to TMDB
 
-Toast notifications for errors
+- Toast notifications for errors
 
-API retry handling
+- API retry handling
 
-Loading skeletons during API calls
+- Loading skeletons during API calls
 
-🧑‍💻 Author
+## 🧑‍💻 Author
 
 Vaibhav Suryavanshi
 Full Stack Developer

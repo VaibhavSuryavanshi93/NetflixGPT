@@ -101,7 +101,7 @@ const Navbar = () => {
             alt="usericon"
             src={user?.photoURL}
           />
-          <button onClick={handleSignOut} className="font-bold text-white ">
+          <button onClick={handleSignOut} className="font-bold text-white cursor-pointer hover:text-amber-50 ">
             (Sign Out)
           </button>
         </div>
