@@ -68,23 +68,6 @@ src/
 
 ---
 
-## ⚙️ Environment Variables
-
-Create a `.env` file in the root:
-
-env
-- VITE_TMDB_API_KEY=your_tmdb_api_key
-- VITE_FIREBASE_API_KEY=your_firebase_key
-- VITE_OPENAI_KEY=your_openai_api_key
----
-
-## 🧪 Installation & Setup
-
-- git clone https://github.com/VaibhavSuryavanshi93/NetflixGPT.git
-- cd NetflixGPT
-- npm install
-- - npm start
-
 
 ## 📸 Screenshots
 
