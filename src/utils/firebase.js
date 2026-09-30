@@ -14,9 +14,14 @@ const firebaseConfig = {
   appId: "1:263491679663:web:a90660e827f774c7a76b5a",
 };
 
+if (!firebaseConfig.apiKey) {
+  console.error(
+    "Firebase API key is missing. Set VITE_FIREBASE_API_KEY in the Netlify environment variables and redeploy."
+  );
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
-export const auth = getAuth();
+export const auth = getAuth(app);
 
